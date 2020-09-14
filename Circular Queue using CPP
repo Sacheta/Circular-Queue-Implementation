@@ -1,0 +1,89 @@
+#include<iostream>
+#define N 5 //declaring size of queue
+
+using namespace std;
+
+int cqueue[N],front=-1,rear=-1; //declaring queue,front and rear
+void enqueue(int a);  //functions to enqueue,dequeue and display
+void dequeue(void);
+void display(void);
+
+void sel(void){ //function to make a selection
+    int n;
+    cin>>n;
+
+    switch(n){
+    case 1:
+        int a;
+        cout<<"Enter the element to be added in the queue: "<<endl;
+        cin>>a;
+        enqueue(a);
+        break;
+    case 2:
+        dequeue();
+        break;
+    default:
+        cout<<"Invalid choice! "<<endl;}
+}
+
+void enqueue(int a){  //function to enqueue
+    if(front==-1&&rear==-1){  //condition for empty
+        cqueue[++rear]=a;
+        front++;}
+    else if(front==(rear+1)%N){ //checking overflow condition
+    cout<<"Overflow!!";
+    return;
+    }else{
+        rear=((rear+1)%N);  //setting value of rear for normal enqueue in circular queue
+        cqueue[rear]=a;
+    }
+    display();  //calling display function at the end
+}
+
+void dequeue(void){  //defining dequeue function
+    int y;
+    if(front==-1&&rear==-1){  //checking underflow condition
+        cout<<"Underflow!"<<endl;
+        return;
+        }
+    else if(front==rear){  //whether there is only one element in the queue
+        y=cqueue[front];
+        rear=front=-1;
+    }
+    else{
+        y=cqueue[front];
+        front=(front+1)%N;  //setting the value of front for dequeue in circular queue
+    }
+    cout<<endl<<y<<" is removed! "<<endl;
+    display();
+}
+
+void display(void){
+    if(front==-1&&rear==-1){  //checking underflow condition
+        cout<<"Queue is empty!"<<endl;
+        return;
+    }
+    cout<<"\n---------------------------------------------"<<endl;
+    cout<<"Our circular queue is: "<<endl;
+    int i=front;
+    int n=(N-front+rear)%N;
+        while(n+1){
+    //for(int i=front;i<=rear;i=(i+1)%N)
+        cout<<cqueue[i]<<"\t";
+        i=(i+1)%N;
+        n--;
+        };
+    cout<<"\n---------------------------------------------"<<endl;
+    sel();
+
+}
+
+int main(){
+    cout<<"Hello, This is the implementation program for the circular queue! "<<endl;
+    cout<<"Make a selection: "<<endl;
+    cout<<"1.Enqueue an element"<<endl;
+    cout<<"2.Dequeue an element"<<endl;
+    sel(); //calling sel function to help user make a selection
+}
+
+                
